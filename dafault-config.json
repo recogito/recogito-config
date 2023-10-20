@@ -697,12 +697,12 @@
   "authentication": {
     "methods": [
       {
-        "name": "Sername and Password",
-        "type": "username_password"
-      },
-      {
         "name": "Send Magic Link",
         "type": "magic_link"
+      },
+      {
+        "name": "Username and Password",
+        "type": "username_password"
       }
     ]
   }
