@@ -1,4 +1,4 @@
-import { Database } from "../database.types";
+import { Database } from '../database.types';
 
 export type PolicyDefinition = {
   id: string;
@@ -28,15 +28,21 @@ export type Branding = {
   welcome_blurb: string | undefined;
   site_color: string;
   home_banner: string | undefined;
+  background_color: string;
+  contrast_color: string;
+  bottom_logos_enabled: boolean;
+  footer_message: string | undefined;
+  top_logos_enabled: boolean;
 };
 
-export type Policy = Database["public"]["Tables"]["policies"]["Row"];
+export type Policy = Database['public']['Tables']['policies']['Row'];
 
 export type AuthenticationType =
-  | "username_password"
-  | "saml"
-  | "oauth"
-  | "magic_link";
+  | 'username_password'
+  | 'saml'
+  | 'oauth'
+  | 'magic_link'
+  | 'keycloak';
 
 export type AuthenticationMethod = {
   name: string;

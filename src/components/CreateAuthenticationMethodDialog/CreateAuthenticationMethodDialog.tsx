@@ -1,13 +1,13 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { AuthenticationMethod, AuthenticationType } from "../../types";
-import { useEffect, useState } from "react";
-import { FormControl, MenuItem, Select, InputLabel } from "@mui/material";
-import { FlexColumn } from "../layouts";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import { AuthenticationMethod, AuthenticationType } from '../../types';
+import { useEffect, useState } from 'react';
+import { FormControl, MenuItem, Select, InputLabel } from '@mui/material';
+import { FlexColumn } from '../layouts';
 
 export interface CreateAuthenticationMethodDialogProps {
   open: boolean;
@@ -23,10 +23,11 @@ export interface CreateAuthenticationMethodDialogProps {
 }
 
 const authTypeMap = {
-  username_password: "Username And Password",
-  saml: "SAML",
-  oauth: "OAuth",
-  magic_link: "Magic Link",
+  username_password: 'Username And Password',
+  saml: 'SAML',
+  oauth: 'OAuth',
+  magic_link: 'Magic Link',
+  keycloak: 'Keycloak',
 };
 
 const renderOptions = (): any[] => {
@@ -80,7 +81,7 @@ const CreateAuthenticationMethodDialog = (
     onClose();
   };
 
-  const mode = method ? "Edit" : "Create";
+  const mode = method ? 'Edit' : 'Create';
   const valid = name && type;
   return (
     <Dialog open={open} onClose={onClose}>
@@ -88,14 +89,14 @@ const CreateAuthenticationMethodDialog = (
       <DialogContent>
         <FlexColumn width={400}>
           <FormControl fullWidth style={{ marginTop: 20 }}>
-            <InputLabel id="type">Type</InputLabel>
+            <InputLabel id='type'>Type</InputLabel>
             <Select
-              id="type"
-              label="Auth Type"
+              id='type'
+              label='Auth Type'
               fullWidth
-              variant="standard"
+              variant='standard'
               // @ts-ignore
-              value={type || ""}
+              value={type || ''}
               onChange={(e) => setType(e.target.value as AuthenticationType)}
             >
               {renderOptions()}
@@ -103,25 +104,25 @@ const CreateAuthenticationMethodDialog = (
           </FormControl>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
-            label="Method Name"
-            type="text"
+            margin='dense'
+            id='name'
+            label='Method Name'
+            type='text'
             fullWidth
-            variant="standard"
-            value={name || ""}
+            variant='standard'
+            value={name || ''}
             onChange={(e) => setName(e.target.value)}
           />
-          {type === "saml" && (
+          {type === 'saml' && (
             <TextField
               autoFocus
-              margin="dense"
-              id="domain"
-              label="Domain"
-              type="text"
+              margin='dense'
+              id='domain'
+              label='Domain'
+              type='text'
               fullWidth
-              variant="standard"
-              value={domain || ""}
+              variant='standard'
+              value={domain || ''}
               onChange={(e) => setDomain(e.target.value)}
             />
           )}

@@ -1,6 +1,6 @@
-import { Database } from "../database.types";
-import { usePolicyQuery } from "../supabase";
-import { createContext, useState } from "react";
+import { Database } from '../database.types';
+import { usePolicyQuery } from '../supabase';
+import { createContext, useState } from 'react';
 import {
   Branding,
   ConfigFile,
@@ -8,13 +8,13 @@ import {
   RoleDefinition,
   AuthenticationMethod,
   AuthenticationType,
-} from "../types";
-import { copyObject } from "../utilities";
+} from '../types';
+import { copyObject } from '../utilities';
 
-type Policy = Database["public"]["Tables"]["policies"]["Row"];
+type Policy = Database['public']['Tables']['policies']['Row'];
 
 export interface IConfigToolContext {
-  policies: Policy[];
+  policies: Policy[] | undefined;
   configFile: ConfigFile | undefined;
   fileName: string | undefined;
   isLoading: boolean;
@@ -29,9 +29,9 @@ export interface IConfigToolContext {
   saveRole(_role: RoleDefinition): void;
   addGroup(
     _group: GroupDefinition,
-    _groupType: "org" | "project" | "layer"
+    _groupType: 'org' | 'project' | 'layer'
   ): void;
-  removeGroup(_groupId: string, _groupType: "org" | "project" | "layer"): void;
+  removeGroup(_groupId: string, _groupType: 'org' | 'project' | 'layer'): void;
   saveAdmin(_email: string, _groups: string[]): void;
   saveVersion(_projectName: string, _author: string, _version: string): void;
   saveBranding(_branding: Branding): void;
@@ -117,7 +117,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
     isLoading,
     isError,
   }: {
-    data: Policy[];
+    data: Policy[] | undefined;
     isLoading: boolean;
     isError: boolean;
   } = usePolicyQuery();
@@ -135,8 +135,8 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
       const copy = copyObject(configFile);
       copy.roles.push({
         id: crypto.randomUUID(),
-        name: "",
-        description: "",
+        name: '',
+        description: '',
         policies: [],
       });
       setConfigFile(copy);
@@ -169,15 +169,15 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
     if (configFile && fileName) {
       //download(configFile, fileName);
       const blob = new Blob([JSON.stringify(configFile)], {
-        type: "application/json",
+        type: 'application/json',
       });
       const pickerOptions = {
         suggestedName: fileName,
         types: [
           {
-            description: "Recogito-Bonn Config",
+            description: 'Recogito-Bonn Config',
             accept: {
-              "application/json": [".json"],
+              'application/json': ['.json'],
             },
           },
         ],
@@ -195,19 +195,19 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
 
   const addGroup = (
     group: GroupDefinition,
-    groupType: "org" | "project" | "layer"
+    groupType: 'org' | 'project' | 'layer'
   ) => {
     if (configFile) {
       const copy = copyObject(configFile);
       if (group.id) {
-        if (groupType === "org") {
+        if (groupType === 'org') {
           const idx = copy.org_groups.findIndex(
             (g: GroupDefinition) => g.id === group.id
           );
           if (idx > -1) {
             copy.org_groups[idx] = group;
           }
-        } else if (groupType === "project") {
+        } else if (groupType === 'project') {
           const idx = copy.project_groups.findIndex(
             (g: GroupDefinition) => g.id === group.id
           );
@@ -224,9 +224,9 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
         }
       } else {
         group.id = crypto.randomUUID();
-        if (groupType === "org") {
+        if (groupType === 'org') {
           copy.org_groups.push(group);
-        } else if (groupType === "project") {
+        } else if (groupType === 'project') {
           copy.project_groups.push(group);
         } else {
           copy.layer_groups.push(group);
@@ -242,7 +242,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
       const copy = copyObject(configFile);
       if (!copy.admin) {
         copy.admin = {
-          admin_email: "",
+          admin_email: '',
           admin_groups: [],
         };
       }
@@ -257,11 +257,16 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
       const copy: ConfigFile = copyObject(configFile);
       if (!copy.branding) {
         copy.branding = {
-          platform_name: "",
-          site_name: "",
+          platform_name: '',
+          site_name: '',
           welcome_blurb: undefined,
-          site_color: "orange",
+          site_color: 'orange',
           home_banner: undefined,
+          footer_message: '',
+          background_color: 'black',
+          contrast_color: 'white',
+          top_logos_enabled: false,
+          bottom_logos_enabled: false,
         };
       }
       copy.branding.platform_name = branding.platform_name;
@@ -269,6 +274,10 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
       copy.branding.welcome_blurb = branding.welcome_blurb;
       copy.branding.site_color = branding.site_color;
       copy.branding.home_banner = branding.home_banner;
+      copy.branding.background_color = branding.background_color;
+      copy.branding.footer_message = branding.footer_message;
+      copy.branding.top_logos_enabled = branding.top_logos_enabled;
+      copy.branding.bottom_logos_enabled = branding.bottom_logos_enabled;
       setConfigFile(copy);
     }
   };
@@ -289,11 +298,11 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
   };
   const removeGroup = (
     groupId: string,
-    groupType: "org" | "project" | "layer"
+    groupType: 'org' | 'project' | 'layer'
   ) => {
     if (configFile) {
       const copy = copyObject(configFile);
-      if (groupType === "org") {
+      if (groupType === 'org') {
         const idx = copy.org_groups.findIndex(
           (g: GroupDefinition) => g.id === groupId
         );
@@ -301,7 +310,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
           copy.org_groups.splice(idx, 1);
           setConfigFile(copy);
         }
-      } else if (groupType === "project") {
+      } else if (groupType === 'project') {
         const idx = copy.project_groups.findIndex(
           (g: GroupDefinition) => g.id === groupId
         );
@@ -373,7 +382,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
     }
     if (!configFile.admin) {
       configFile.admin = {
-        admin_email: "",
+        admin_email: '',
         admin_groups: [],
       };
     }

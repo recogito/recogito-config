@@ -1,21 +1,22 @@
-import { FlexColumn, FlexRow } from "../layouts";
-import { useContext, useState } from "react";
-import { ConfigToolContext } from "../../providers/ConfigToolProvider";
+import { FlexColumn, FlexRow } from '../layouts';
+import { useContext, useState } from 'react';
+import { ConfigToolContext } from '../../providers/ConfigToolProvider';
 import {
   Button,
   Card,
   CardActions,
   CardContent,
   Typography,
-} from "@mui/material";
-import { AuthenticationMethod, AuthenticationType } from "../../types";
-import CreateAuthenticationMethodDialog from "../CreateAuthenticationMethodDialog/CreateAuthenticationMethodDialog";
+} from '@mui/material';
+import { AuthenticationMethod, AuthenticationType } from '../../types';
+import CreateAuthenticationMethodDialog from '../CreateAuthenticationMethodDialog/CreateAuthenticationMethodDialog';
 
 const authTypeMap = {
-  username_password: "Username And Password",
-  saml: "SAML",
-  oauth: "OAuth",
-  magic_link: "Magic Link",
+  username_password: 'Username And Password',
+  saml: 'SAML',
+  oauth: 'OAuth',
+  magic_link: 'Magic Link',
+  keycloak: 'Keycloak',
 };
 
 export const Authentication = () => {
@@ -59,36 +60,36 @@ export const Authentication = () => {
   if (configFile) {
     return (
       <FlexColumn fullWidth padTop={32}>
-        <Typography variant="h4">Organization Authentication</Typography>
+        <Typography variant='h4'>Organization Authentication</Typography>
         <FlexRow fullWidth wrap padTop={10}>
           {configFile.authentication &&
             configFile.authentication.methods.map((method) => {
               return (
                 <Card
                   sx={{ width: 300, marginRight: 10 }}
-                  variant="outlined"
+                  variant='outlined'
                   key={method.name}
                 >
                   <CardContent>
-                    <Typography variant="h6">{method.name}</Typography>
-                    <Typography variant="body1">
+                    <Typography variant='h6'>{method.name}</Typography>
+                    <Typography variant='body1'>
                       {`Type: ${authTypeMap[method.type]}`}
                     </Typography>
-                    {method.type === "saml" && (
-                      <Typography variant="body1">{`Domain: ${method.domain}`}</Typography>
+                    {method.type === 'saml' && (
+                      <Typography variant='body1'>{`Domain: ${method.domain}`}</Typography>
                     )}
                   </CardContent>
                   <CardActions>
                     <Button
-                      size="small"
-                      variant="outlined"
+                      size='small'
+                      variant='outlined'
                       onClick={() => handleEditMethod(method)}
                     >
                       Edit Auth Method
                     </Button>
                     <Button
-                      size="small"
-                      variant="outlined"
+                      size='small'
+                      variant='outlined'
                       onClick={() =>
                         handleRemoveMethod(method.name, method.type)
                       }
@@ -101,7 +102,7 @@ export const Authentication = () => {
             })}
         </FlexRow>
         <FlexRow padTop={20} padBottom={20}>
-          <Button variant="contained" onClick={() => handleCreateMethod()}>
+          <Button variant='contained' onClick={() => handleCreateMethod()}>
             Create Auth Method
           </Button>
         </FlexRow>
