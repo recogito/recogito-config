@@ -278,6 +278,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
       copy.branding.footer_message = branding.footer_message;
       copy.branding.top_logos_enabled = branding.top_logos_enabled;
       copy.branding.bottom_logos_enabled = branding.bottom_logos_enabled;
+      copy.branding.contrast_color = branding.contrast_color;
       setConfigFile(copy);
     }
   };
