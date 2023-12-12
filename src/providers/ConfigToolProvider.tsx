@@ -8,6 +8,7 @@ import {
   RoleDefinition,
   AuthenticationMethod,
   AuthenticationType,
+  DynamicText,
 } from '../types';
 import { copyObject } from '../utilities';
 
@@ -35,6 +36,7 @@ export interface IConfigToolContext {
   saveAdmin(_email: string, _groups: string[]): void;
   saveVersion(_projectName: string, _author: string, _version: string): void;
   saveBranding(_branding: Branding): void;
+  saveDynamicText(_dynamicText: DynamicText): void;
   addAuthMethod(_method: AuthenticationMethod): void;
   removeAuthMethod(_name: string, _type: AuthenticationType): void;
   onSaveConfig(): void;
@@ -92,6 +94,9 @@ const ConfigToolContext = createContext<IConfigToolContext>({
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   saveBranding(_branding: Branding) {
+    return;
+  },
+  saveDynamicText(_dynamicText: DynamicText) {
     return;
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -283,6 +288,20 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
     }
   };
 
+  const saveDynamicText = (dynamicText: DynamicText) => {
+    if (configFile) {
+      const copy: ConfigFile = copyObject(configFile);
+      if (!copy.dynamic_text) {
+        copy.dynamic_text = {
+          public_document_warning: [],
+        };
+      }
+      copy.dynamic_text.public_document_warning =
+        dynamicText.public_document_warning;
+      setConfigFile(copy);
+    }
+  };
+
   const saveVersion = (
     projectName: string,
     author: string,
@@ -388,6 +407,20 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
       };
     }
 
+    if (!configFile.dynamic_text) {
+      configFile.dynamic_text = {
+        public_document_warning: [],
+      };
+    }
+
+    if (!configFile.supported_languages) {
+      configFile.supported_languages = ['en', 'de'];
+    }
+
+    if (!configFile.default_language) {
+      configFile.default_language = 'en';
+    }
+
     setConfigFile(configFile);
   };
 
@@ -413,6 +446,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
         saveAdmin,
         saveVersion,
         saveBranding,
+        saveDynamicText,
         addAuthMethod,
         removeAuthMethod,
       }}

@@ -50,18 +50,32 @@ export type AuthenticationMethod = {
   domain: string | undefined;
 };
 
+export type Translation = {
+  language: string;
+  text: string;
+};
+
+export type Translations = Translation[];
+
+export type DynamicText = {
+  public_document_warning: Translations;
+};
+
 export type ConfigFile = {
   project_name: string;
   author: string;
   version: string;
   created_at: string;
   updated_at: string | undefined;
+  supported_languages: string[];
+  default_language: string;
   policies: PolicyDefinition[];
   roles: RoleDefinition[];
   org_groups: GroupDefinition[];
   project_groups: GroupDefinition[];
   layer_groups: GroupDefinition[];
   branding: Branding;
+  dynamic_text: DynamicText;
 
   admin: {
     admin_email: string;
