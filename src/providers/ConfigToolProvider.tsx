@@ -272,6 +272,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
           contrast_color: 'white',
           top_logos_enabled: false,
           bottom_logos_enabled: false,
+          favicon: 'favicon.svg',
         };
       }
       copy.branding.platform_name = branding.platform_name;
@@ -284,6 +285,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
       copy.branding.top_logos_enabled = branding.top_logos_enabled;
       copy.branding.bottom_logos_enabled = branding.bottom_logos_enabled;
       copy.branding.contrast_color = branding.contrast_color;
+      copy.branding.favicon = branding.favicon;
       setConfigFile(copy);
     }
   };

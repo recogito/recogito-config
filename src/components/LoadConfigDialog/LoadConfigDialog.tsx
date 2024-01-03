@@ -1,14 +1,14 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { ConfigFile, PolicyDefinition } from "../../types";
-import { useEffect, useState } from "react";
-import { copyObject } from "../../utilities";
-import { MuiFileInput } from "mui-file-input";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { ConfigFile, PolicyDefinition } from '../../types';
+import { useEffect, useState } from 'react';
+import { copyObject } from '../../utilities';
+import { MuiFileInput } from 'mui-file-input';
 
 export interface LoadConfigDialogProps {
   open: boolean;
@@ -43,7 +43,7 @@ const LoadConfigDialog = (props: LoadConfigDialogProps) => {
   const handleChooseFile = (newFile) => {
     const data = new FileReader();
     setFile(newFile);
-    data.addEventListener("load", () => {
+    data.addEventListener('load', () => {
       if (newFile) {
         setConfigFile(JSON.parse(data.result as string) as ConfigFile);
         setFileName(newFile.name);
@@ -73,9 +73,9 @@ const LoadConfigDialog = (props: LoadConfigDialogProps) => {
     setLoading(false);
     // noinspection TypeScriptValidateTypes
     setConfigFile({
-      project_name: "",
-      author: "",
-      version: "",
+      project_name: '',
+      author: '',
+      version: '',
       created_at: Date.now().toString(),
       updated_at: undefined,
       policies: copyObject(policies),
@@ -84,18 +84,38 @@ const LoadConfigDialog = (props: LoadConfigDialogProps) => {
       project_groups: [],
       layer_groups: [],
       admin: {
-        admin_email: "",
+        admin_email: '',
         admin_groups: [],
       },
       branding: {
-        platform_name: "",
-        site_name: "",
-        site_color: "orange",
-        welcome_blurb: "",
-        home_banner: "",
+        platform_name: '',
+        site_name: '',
+        welcome_blurb: undefined,
+        site_color: 'orange',
+        home_banner: undefined,
+        footer_message: '',
+        background_color: 'black',
+        contrast_color: 'white',
+        top_logos_enabled: false,
+        bottom_logos_enabled: false,
+        favicon: 'favicon.svg',
       },
       authentication: {
         methods: [],
+      },
+      supported_languages: ['en', 'de'],
+      default_language: 'en',
+      dynamic_text: {
+        public_document_warning: [
+          {
+            language: 'en',
+            text: '',
+          },
+          {
+            language: 'de',
+            text: '',
+          },
+        ],
       },
     });
   };
@@ -121,7 +141,7 @@ const LoadConfigDialog = (props: LoadConfigDialogProps) => {
         </DialogContentText>
         {loading ? (
           <MuiFileInput
-            placeholder="Load a Config File"
+            placeholder='Load a Config File'
             value={file}
             onChange={handleChooseFile}
           />
@@ -129,42 +149,42 @@ const LoadConfigDialog = (props: LoadConfigDialogProps) => {
           <>
             <TextField
               autoFocus
-              margin="dense"
-              id="fileName"
-              label="Name for Config file"
-              type="text"
+              margin='dense'
+              id='fileName'
+              label='Name for Config file'
+              type='text'
               fullWidth
-              variant="standard"
+              variant='standard'
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
             />
             <TextField
-              margin="dense"
-              id="projectName"
-              label="Project Name"
-              type="text"
+              margin='dense'
+              id='projectName'
+              label='Project Name'
+              type='text'
               fullWidth
-              variant="standard"
+              variant='standard'
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
             />
             <TextField
-              margin="dense"
-              id="author"
-              label="Author"
-              type="text"
+              margin='dense'
+              id='author'
+              label='Author'
+              type='text'
               fullWidth
-              variant="standard"
+              variant='standard'
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
             />
             <TextField
-              margin="dense"
-              id="version"
-              label="Version"
-              type="text"
+              margin='dense'
+              id='version'
+              label='Version'
+              type='text'
               fullWidth
-              variant="standard"
+              variant='standard'
               value={version}
               onChange={(e) => setVersion(e.target.value)}
             />

@@ -31,6 +31,7 @@ function Branding() {
   const [footerMessage, setFooterMessage] = useState<string | undefined>();
   const [topLogos, setTopLogos] = useState<boolean>(false);
   const [bottomLogos, setBottomLogos] = useState<boolean>(false);
+  const [favicon, setFavicon] = useState<string>('favicon.svg');
 
   useEffect(() => {
     if (configFile) {
@@ -61,6 +62,9 @@ function Branding() {
       );
       setBottomLogos(
         configFile.branding ? configFile.branding.bottom_logos_enabled : false
+      );
+      setFavicon(
+        configFile.branding ? configFile.branding.favicon : 'favicon.svg'
       );
     }
   }, [configFile]);
@@ -95,6 +99,9 @@ function Branding() {
       setBottomLogos(
         configFile.branding ? configFile.branding.bottom_logos_enabled : false
       );
+      setFavicon(
+        configFile.branding ? configFile.branding.favicon : 'favicon.svg'
+      );
     }
   };
 
@@ -110,6 +117,7 @@ function Branding() {
       home_banner: homeBanner,
       footer_message: footerMessage,
       top_logos_enabled: topLogos,
+      favicon: favicon,
     });
   };
 
@@ -246,7 +254,19 @@ function Branding() {
               onChange={(e) => setHomeBanner(e.target.value)}
             />
           </FlexRow>
-
+          <FlexRow fullWidth padding={5}>
+            <TextField
+              autoFocus
+              margin='dense'
+              id='favicon'
+              label='Favicon'
+              type='text'
+              fullWidth
+              variant='standard'
+              value={favicon || ''}
+              onChange={(e) => setFavicon(e.target.value)}
+            />
+          </FlexRow>
           <FlexRow fullWidth spaceBetween padTop={32}>
             <Button
               variant='contained'

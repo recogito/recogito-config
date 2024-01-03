@@ -33,6 +33,7 @@ export type Branding = {
   bottom_logos_enabled: boolean;
   footer_message: string | undefined;
   top_logos_enabled: boolean;
+  favicon: string;
 };
 
 export type Policy = Database['public']['Tables']['policies']['Row'];
