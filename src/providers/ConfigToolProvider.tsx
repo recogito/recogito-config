@@ -387,9 +387,8 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
   };
 
   const handleSetConfig = (configFile: ConfigFile) => {
-    if (!configFile.policies) {
-      configFile.policies = copyObject(policies);
-    }
+    configFile.policies = copyObject(policies);
+
     if (!configFile.roles) {
       configFile.roles = [];
     }
