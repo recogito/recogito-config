@@ -273,6 +273,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
           top_logos_enabled: false,
           bottom_logos_enabled: false,
           favicon: 'favicon.svg',
+          login_logo_enabled: false,
         };
       }
       copy.branding.platform_name = branding.platform_name;

@@ -20,6 +20,7 @@ export type GroupDefinition = {
   role_id: string;
   is_admin: boolean;
   is_default: boolean;
+  is_read_only: boolean;
 };
 
 export type Branding = {
@@ -33,6 +34,7 @@ export type Branding = {
   bottom_logos_enabled: boolean;
   footer_message: string | undefined;
   top_logos_enabled: boolean;
+  login_logo_enabled: boolean;
   favicon: string;
 };
 
