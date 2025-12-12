@@ -59,9 +59,11 @@ export const Authentication = () => {
 
   if (configFile) {
     return (
-      <FlexColumn fullWidth padTop={32}>
-        <Typography variant='h4'>Organization Authentication</Typography>
-        <FlexRow fullWidth wrap padTop={10}>
+      <FlexColumn fullWidth>
+        <FlexRow padTop={20} padBottom={20}>
+        <Typography variant='h5' color='black'>Organization Authentication</Typography>
+        </FlexRow>
+        <FlexRow fullWidth wrap>
           {configFile.authentication &&
             configFile.authentication.methods.map((method) => {
               return (

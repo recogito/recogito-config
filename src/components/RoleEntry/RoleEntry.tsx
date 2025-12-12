@@ -1,19 +1,19 @@
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useContext, useEffect, useState } from "react";
-import { ConfigToolContext } from "../../providers/ConfigToolProvider";
-import TextField from "@mui/material/TextField";
-import { DataGrid } from "@mui/x-data-grid";
-import { ConfigFile, RoleDefinition } from "../../types";
-import { FlexColumn, FlexRow } from "../layouts";
-import Button from "@mui/material/Button";
-import { Checkbox } from "@mui/material";
-import { copyObject } from "../../utilities";
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useContext, useEffect, useState } from 'react';
+import { ConfigToolContext } from '../../providers/ConfigToolProvider';
+import TextField from '@mui/material/TextField';
+import { DataGrid } from '@mui/x-data-grid';
+import { ConfigFile, RoleDefinition } from '../../types';
+import { FlexColumn, FlexRow } from '../layouts';
+import Button from '@mui/material/Button';
+import { Checkbox } from '@mui/material';
+import { copyObject } from '../../utilities';
 // @ts-ignore
-import equals from "deep-equal";
+import equals from 'deep-equal';
 
 type PolicyRowEntry = {
   id: string;
@@ -27,6 +27,11 @@ type PolicyRow = {
   UPDATE: PolicyRowEntry;
   DELETE: PolicyRowEntry;
 };
+type Operation = keyof Pick<
+  PolicyRow,
+  'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE'
+>;
+const EMPTY_OP: PolicyRowEntry = { id: '', enabled: false };
 
 export type RoleEntryProps = {
   id: string;
@@ -34,33 +39,34 @@ export type RoleEntryProps = {
   expandEntry(_entryId: string, _expanded: boolean): void;
 };
 
-const getPolicyRows = (role: RoleDefinition, configFile: ConfigFile) => {
+const getPolicyRows = (
+  role: RoleDefinition,
+  configFile: ConfigFile
+): PolicyRow[] => {
   if (role && configFile) {
-    const map = {};
+    const map: Record<string, PolicyRow> = {};
     let i = 1;
-    configFile.policies.forEach((policy) => {
+    for (const policy of configFile.policies) {
+      const op = policy.operation as Operation;
+
       if (!map[policy.table_name]) {
         map[policy.table_name] = {
           id: i++,
           table: policy.table_name,
-          SELECT: { id: "", enabled: false },
-          INSERT: { id: "", enabled: false },
-          UPDATE: { id: "", enabled: false },
-          DELETE: { id: "", enabled: false },
+          SELECT: { ...EMPTY_OP },
+          INSERT: { ...EMPTY_OP },
+          UPDATE: { ...EMPTY_OP },
+          DELETE: { ...EMPTY_OP },
         };
       }
-      map[policy.table_name][policy.operation].id = policy.id;
-      map[policy.table_name][policy.operation].enabled = role.policies.includes(
-        policy.id
-      );
-    });
+      const row = map[policy.table_name];
 
-    const ret: PolicyRow[] = [];
-    for (const value: PolicyRow of Object.values(map)) {
-      ret.push(value);
+      row[op] = {
+        id: policy.id,
+        enabled: role.policies.includes(policy.id),
+      };
     }
-
-    return ret;
+    return Object.values(map);
   }
 
   return [];
@@ -72,9 +78,9 @@ const RoleEntry = (props: RoleEntryProps) => {
     useContext(ConfigToolContext);
 
   const [role, setRole] = useState<RoleDefinition | undefined>();
-  const [rows, setRows] = useState([]);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [rows, setRows] = useState<PolicyRow[]>([]);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [saveEnabled, setSaveEnabled] = useState(false);
 
   const addRolePolicy = (policyId: string) => {
@@ -111,13 +117,13 @@ const RoleEntry = (props: RoleEntryProps) => {
   useEffect(() => {
     const currentRole = getRole(id);
     let save = false;
-    if(!equals(currentRole, role)) {
+    if (!equals(currentRole, role)) {
       save = true;
     }
-    if(name.length > 0 && name !== currentRole?.name) {
+    if (name.length > 0 && name !== currentRole?.name) {
       save = true;
     }
-    if(description.length > 0 && description !== currentRole?.description) {
+    if (description.length > 0 && description !== currentRole?.description) {
       save = true;
     }
     setSaveEnabled(save);
@@ -139,28 +145,28 @@ const RoleEntry = (props: RoleEntryProps) => {
   };
 
   const columns = [
-    { field: "table", headerName: "Table", width: 300 },
+    { field: 'table', headerName: 'Table', width: 300 },
     {
-      field: "SELECT",
-      headerName: "SELECT",
+      field: 'SELECT',
+      headerName: 'SELECT',
       width: 150,
       renderCell: renderOperationCell,
     },
     {
-      field: "INSERT",
-      headerName: "INSERT",
+      field: 'INSERT',
+      headerName: 'INSERT',
       width: 150,
       renderCell: renderOperationCell,
     },
     {
-      field: "UPDATE",
-      headerName: "UPDATE",
+      field: 'UPDATE',
+      headerName: 'UPDATE',
       width: 150,
       renderCell: renderOperationCell,
     },
     {
-      field: "DELETE",
-      headerName: "DELETE",
+      field: 'DELETE',
+      headerName: 'DELETE',
       width: 150,
       renderCell: renderOperationCell,
     },
@@ -171,9 +177,9 @@ const RoleEntry = (props: RoleEntryProps) => {
   };
 
   const handleCancel = () => {
-    if(configFile) {
+    if (configFile) {
       const r = getRole(id);
-      if(r) {
+      if (r) {
         setRole(r);
         setName(r.name);
         setDescription(r.description);
@@ -195,16 +201,14 @@ const RoleEntry = (props: RoleEntryProps) => {
     return (
       <Accordion
         expanded={expanded}
-        onChange={(e: any, isExpanded: boolean) => expandEntry(id, isExpanded)}
+        onChange={(_: any, isExpanded: boolean) => expandEntry(id, isExpanded)}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <FlexRow fullWidth alignLeftCenter spaceBetween padRight={20}>
-            <Typography variant="h5">
-              {`Name: ${role.name.length > 0 ? role.name : "Unnamed Role"}`}
+            <Typography variant='h5'>
+              {`Name: ${role.name.length > 0 ? role.name : 'Unnamed Role'}`}
             </Typography>
-            <Typography variant="h6">
-              {`Description: ${role.description}`}
-            </Typography>
+            <Typography>{`Description: ${role.description}`}</Typography>
           </FlexRow>
         </AccordionSummary>
         <AccordionDetails>
@@ -213,43 +217,43 @@ const RoleEntry = (props: RoleEntryProps) => {
               <FlexRow width={200}>
                 <TextField
                   value={name}
-                  label="Name"
+                  label='Name'
                   onChange={(e) => setName(e.target.value)}
-                  type="text"
+                  type='text'
                   fullWidth
                 />
               </FlexRow>
               <FlexRow width={400} padRight={10}>
                 <TextField
                   value={description}
-                  label="Description"
+                  label='Description'
                   onChange={(e) => setDescription(e.target.value)}
-                  type="text"
+                  type='text'
                   fullWidth
                 />
               </FlexRow>
             </FlexRow>
             <FlexRow fullWidth spaceBetween padTop={20} padBottom={20}>
-              <Button variant="contained" onClick={handleRemoveRole}>
+              <Button variant='contained' onClick={handleRemoveRole}>
                 Remove Role
               </Button>
               {saveEnabled && (
                 <FlexRow fifthWidth spaceBetween right>
                   <Button
-                    variant="contained"
-                    color="secondary"
+                    variant='contained'
+                    color='secondary'
                     onClick={handleCancel}
                   >
                     Cancel
                   </Button>
-                  <Button variant="contained" onClick={handleSave}>
+                  <Button variant='contained' onClick={handleSave}>
                     Save
                   </Button>
                 </FlexRow>
               )}
             </FlexRow>
           </FlexColumn>
-          <Typography variant="h6">Policies:</Typography>
+          <Typography variant='h6'>Policies:</Typography>
           <DataGrid columns={columns} rows={rows} />
         </AccordionDetails>
       </Accordion>

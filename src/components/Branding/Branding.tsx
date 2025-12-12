@@ -123,7 +123,12 @@ function Branding() {
 
   const saveEnabled = siteName && siteName.length > 0;
   return (
-    <FlexColumn width={1200} padTop={32}>
+    <FlexColumn fullWidth padBottom={32}>
+      <FlexRow padTop={20} padBottom={20}>
+        <Typography variant='h5' color='black'>
+          Branding
+        </Typography>
+      </FlexRow>
       <FlexRow fullWidth>
         <FlexColumn width={300}>
           <FlexRow fullWidth padding={5}>
@@ -325,6 +330,7 @@ function Branding() {
           <FlexRow fullWidth padding={5}>
             <FormGroup>
               <FormControlLabel
+                sx={{ color: 'black' }}
                 control={
                   <Switch
                     checked={topLogos}
@@ -336,6 +342,7 @@ function Branding() {
                 label='Enable Top Bar Logos'
               />
               <FormControlLabel
+                sx={{ color: 'black' }}
                 control={
                   <Switch
                     checked={bottomLogos}
