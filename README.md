@@ -44,4 +44,4 @@ Click Load Config and upload the provided `default-config.json` from the repo ro
 
 Review and customize all configuration options. For more information, view the [Configuration reference](https://recogitostudio.org/reference/config-tool-architecture/) on the Recogito Studio documentation website.
 
-When finished, click "Save Config," enter metadata (project name, author, version), and download the generated `config.json` file. This `config.json` can now be used by [recogito-server](https://github.com/recogito/recogito-server) and [recogito-server](https://github.com/recogito/recogito-client).
+When finished, click "Save Config," enter metadata (project name, author, version), and download the generated `config.json` file. This `config.json` can now be used by [recogito-server](https://github.com/recogito/recogito-server) and [recogito-client](https://github.com/recogito/recogito-client).
