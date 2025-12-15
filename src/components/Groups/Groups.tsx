@@ -70,8 +70,15 @@ const Groups = () => {
 
   if (configFile) {
     return (
-      <FlexColumn fullWidth padTop={32}>
-        <Typography variant='h4'>Organization Groups</Typography>
+      <FlexColumn fullWidth>
+        <FlexRow padTop={20} padBottom={20}>
+          <Typography variant='h5' color='black'>
+            Default Groups
+          </Typography>
+        </FlexRow>
+        <Typography variant='h6' color='black'>
+          Organization Groups
+        </Typography>
         <FlexRow fullWidth wrap padTop={10}>
           {configFile.org_groups.map((group) => {
             const role = configFile?.roles
@@ -134,7 +141,9 @@ const Groups = () => {
         <div style={{ width: '100%', marginBottom: 10 }}>
           <Divider variant='fullWidth' />
         </div>
-        <Typography variant='h4'>Project Groups</Typography>
+        <Typography variant='h6' color='black'>
+          Project Groups
+        </Typography>
         <FlexRow fullWidth wrap padTop={10}>
           {configFile.project_groups.map((group) => {
             const role = configFile?.roles
@@ -200,7 +209,9 @@ const Groups = () => {
         <div style={{ width: '100%', marginBottom: 10 }}>
           <Divider variant='fullWidth' />
         </div>
-        <Typography variant='h4'>Layer Groups</Typography>
+        <Typography variant='h6' color='black'>
+          Layer Groups
+        </Typography>
         <FlexRow fullWidth wrap padTop={10}>
           {configFile.layer_groups.map((group) => {
             const role = configFile?.roles

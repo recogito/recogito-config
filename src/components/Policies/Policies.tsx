@@ -1,13 +1,13 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { FlexColumn, FlexRow } from "../layouts";
-import { Typography } from "@mui/material";
-import {useContext} from "react";
-import {ConfigToolContext} from "../../providers/ConfigToolProvider";
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { FlexColumn, FlexRow } from '../layouts';
+import { Typography } from '@mui/material';
+import { useContext } from 'react';
+import { ConfigToolContext } from '../../providers/ConfigToolProvider';
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "id", width: 300 },
-  { field: "table_name", headerName: "Table Name", width: 150 },
-  { field: "operation", headerName: "Operation", width: 150 },
+  { field: 'id', headerName: 'id', width: 300 },
+  { field: 'table_name', headerName: 'Table Name', width: 150 },
+  { field: 'operation', headerName: 'Operation', width: 150 },
 ];
 
 const Policies = () => {
@@ -19,12 +19,16 @@ const Policies = () => {
     return <div>Error</div>;
   }
   return (
-      <FlexColumn fullWidth>
-        <FlexRow padTop={20} padBottom={20}>
-          <Typography variant="h5">Policies</Typography>
-        </FlexRow>
-        <DataGrid columns={columns} rows={policies as any[]} sx={{backgroundColor: 'white'}}/>
-      </FlexColumn>
+    <FlexColumn fullWidth>
+      <FlexRow padTop={20} padBottom={20}>
+        <Typography variant='h5' color='black'>Policies</Typography>
+      </FlexRow>
+      <DataGrid
+        columns={columns}
+        rows={policies as any[]}
+        sx={{ backgroundColor: 'white' }}
+      />
+    </FlexColumn>
   );
 };
 

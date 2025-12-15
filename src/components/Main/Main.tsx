@@ -69,7 +69,7 @@ const Main = () => {
       <AppBar position='static'>
         <Toolbar>
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            Annotation Engine Configuration Tool
+            Recogito Studio Configuration Tool
           </Typography>
           <FlexRow padRight={20}>
             {`Config File: ${fileName || 'No File Chosen'}`}

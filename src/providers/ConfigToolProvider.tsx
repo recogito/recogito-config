@@ -1,4 +1,3 @@
-import { Database } from '../database.types';
 import { usePolicyQuery } from '../supabase';
 import { createContext, useState } from 'react';
 import {
@@ -9,13 +8,12 @@ import {
   AuthenticationMethod,
   AuthenticationType,
   DynamicText,
+  PolicyDefinition,
 } from '../types';
 import { copyObject } from '../utilities';
 
-type Policy = Database['public']['Tables']['policies']['Row'];
-
 export interface IConfigToolContext {
-  policies: Policy[] | undefined;
+  policies: PolicyDefinition[] | undefined;
   configFile: ConfigFile | undefined;
   fileName: string | undefined;
   isLoading: boolean;
@@ -117,15 +115,7 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
   const [configFile, setConfigFile] = useState<ConfigFile | undefined>();
   const [fileName, setFileName] = useState<string | undefined>();
 
-  const {
-    data: policies,
-    isLoading,
-    isError,
-  }: {
-    data: Policy[] | undefined;
-    isLoading: boolean;
-    isError: boolean;
-  } = usePolicyQuery();
+  const { data: policies, isLoading, isError } = usePolicyQuery();
 
   const getRole = (id: string) => {
     if (configFile) {
@@ -273,7 +263,6 @@ const ConfigToolProvider = (props: ConfigToolProviderProps) => {
           top_logos_enabled: false,
           bottom_logos_enabled: false,
           favicon: 'favicon.svg',
-          login_logo_enabled: false,
         };
       }
       copy.branding.platform_name = branding.platform_name;

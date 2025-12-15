@@ -1,6 +1,6 @@
-import { FlexColumn, FlexRow } from "../layouts";
-import { useContext, useEffect, useState } from "react";
-import { ConfigToolContext } from "../../providers/ConfigToolProvider";
+import { FlexColumn, FlexRow } from '../layouts';
+import { useContext, useEffect, useState } from 'react';
+import { ConfigToolContext } from '../../providers/ConfigToolProvider';
 import {
   TextField,
   FormControl,
@@ -11,7 +11,8 @@ import {
   Chip,
   Input,
   Button,
-} from "@mui/material";
+  Typography,
+} from '@mui/material';
 
 const Admin = () => {
   const { configFile, saveAdmin } = useContext(ConfigToolContext);
@@ -49,32 +50,39 @@ const Admin = () => {
   const saveEnabled = email && email.length > 0 && groups.length > 0;
   return (
     <FlexColumn width={300}>
+      <FlexRow padTop={20} padBottom={20}>
+        <Typography variant='h5' color='black'>
+          Administration
+        </Typography>
+      </FlexRow>
       <TextField
         autoFocus
-        margin="dense"
-        id="email"
-        label="Admin Email"
-        type="text"
+        margin='dense'
+        id='email'
+        label='Admin Email'
+        type='text'
         fullWidth
-        variant="standard"
-        value={email || ""}
+        variant='standard'
+        value={email || ''}
         onChange={(e) => setEmail(e.target.value)}
       />
       <FormControl fullWidth sx={{ marginTop: 2 }}>
-        <InputLabel id="demo-multiple-chip-label">Admin Groups</InputLabel>
+        <InputLabel id='demo-multiple-chip-label'>Admin Groups</InputLabel>
         <Select
-          labelId="multiple-chip-label"
-          id="multiple-chip"
+          labelId='multiple-chip-label'
+          id='multiple-chip'
           multiple
           value={groups}
           onChange={handleChange}
-          input={<Input id="select-multiple-chip" label="Chip" />}
+          input={<Input id='select-multiple-chip' />}
           renderValue={(selected) => (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => {
-                const label = configFile.org_groups?.find((g) => g.id === value).name;
+                const label = configFile?.org_groups?.find(
+                  (g) => g.id === value
+                )?.name;
 
-                return <Chip key={value} label={label}/>;
+                return <Chip key={value} label={label} />;
               })}
             </Box>
           )}
@@ -87,10 +95,14 @@ const Admin = () => {
         </Select>
       </FormControl>
       <FlexRow fullWidth spaceBetween padTop={32}>
-        <Button variant="contained" color="secondary" onClick={handleCancel}>
+        <Button variant='contained' color='secondary' onClick={handleCancel}>
           Cancel
         </Button>
-        <Button variant="contained" onClick={handleSave} disabled={!saveEnabled}>
+        <Button
+          variant='contained'
+          onClick={handleSave}
+          disabled={!saveEnabled}
+        >
           Save
         </Button>
       </FlexRow>

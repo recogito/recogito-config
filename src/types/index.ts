@@ -1,3 +1,4 @@
+import type { PostgrestError } from '@supabase/supabase-js';
 import { Database } from '../database.types';
 
 export type PolicyDefinition = {
@@ -34,7 +35,6 @@ export type Branding = {
   bottom_logos_enabled: boolean;
   footer_message: string | undefined;
   top_logos_enabled: boolean;
-  login_logo_enabled: boolean;
   favicon: string;
 };
 
@@ -89,3 +89,8 @@ export type ConfigFile = {
     methods: AuthenticationMethod[];
   };
 };
+
+export type Response<T> = PromiseLike<{
+  error: PostgrestError | null;
+  data: T;
+}>;
